@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>Appointment_System_Server.Infrastructure</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Remove="Class1.cs" />
+      <Compile Remove="Migrations\ApplicationDbContextModelSnapshot.cs" />
+      <Compile Remove="Migrations\20241203155303_InitialMigratio3n.Designer.cs" />
+      <Compile Remove="Migrations\20241203155303_InitialMigratio3n.cs" />
+      <Compile Remove="Migrations\20241203154451_InitialMigration.cs" />
+      <Compile Remove="Migrations\20241203154451_InitialMigration.Designer.cs" />
+      <Compile Remove="Migrations\20241203172640_mg1.cs" />
+      <Compile Remove="Migrations\20241203172640_mg1.Designer.cs" />
+      <Compile Remove="Migrations\20241203175234_mg1.cs" />
+      <Compile Remove="Migrations\20241203175234_mg1.Designer.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.3" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.3" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.3">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
+      <PackageReference Include="Scrutor" Version="4.2.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Appointment-System-Server.Application\Appointment-System-Server.Application.csproj" />
+      <ProjectReference Include="..\Appointment-System-Server.Domain\Appointment-System-Server.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Migrations\" />
+    </ItemGroup>
+
+</Project>
