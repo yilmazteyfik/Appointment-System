@@ -1,7 +1,6 @@
 using Appointment_System_Server.Application;
 using Appointment_System_Server.Domain.Entities;
 using Appointment_System_Server.Infrastructure;
-using Appointment_System_Server.WebAPI;
 using DefaultCorsPolicyNugetPackage;
 using Microsoft.AspNetCore.Identity;
 
@@ -23,13 +22,35 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+//app.UseHttpsRedirection();
 app.UseCors();
-app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-await Helper.CreateUserAsync(app);
+using (var scoped = app.Services.CreateScope())
+{
+    var userManager = scoped.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+    
+    if (!userManager.Users.Any(u => u.UserName == "admin"))
+    {
+        var result = userManager.CreateAsync(new AppUser()
+        {
+            FirstName = "Teyfik",
+            LastName = "YILMAZ",
+            Email = "yilmazteyfik@gmail.com",
+            UserName = "admin",
+        }, "1A.").Result;
 
+        if (!result.Succeeded)
+        {
+            foreach (var error in result.Errors)
+            {
+                Console.WriteLine($"Error: {error.Description}");
+            }
+        }
+    }
+}
 
 app.Run();
 

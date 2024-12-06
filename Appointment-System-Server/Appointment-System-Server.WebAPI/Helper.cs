@@ -10,9 +10,9 @@ public static class Helper
         using (var scoped = app.Services.CreateScope())
         {
             var userManager = scoped.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
-            if (!userManager.Users.Any())
+            if (!userManager.Users.Any(u => u.UserName == "admin"))
             {
-                await userManager.CreateAsync(new AppUser()
+                var result = await userManager.CreateAsync(new AppUser()
                 {
                     FirstName = "Teyfik",
                     LastName = "YILMAZ",
@@ -20,7 +20,13 @@ public static class Helper
                     UserName = "admin",
                 }, "1A.");
 
-                
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        Console.WriteLine($"Error: {error.Description}");
+                    }
+                }
             }
         }
     }
