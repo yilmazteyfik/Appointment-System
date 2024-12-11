@@ -1,11 +1,12 @@
 using Appointment_System_Server.Application.Features.Auth.Login;
 using Appointment_System_Server.WebAPI.Abstractions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Appointment_System_Server.WebAPI.Controllers;
 
-
+[AllowAnonymous]
 public sealed class AuthController : ApiController
 {
     public AuthController(IMediator mediator) : base(mediator)

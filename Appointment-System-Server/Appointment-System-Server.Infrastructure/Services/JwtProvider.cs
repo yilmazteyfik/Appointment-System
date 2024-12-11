@@ -4,11 +4,12 @@ using System.Security.Claims;
 using System.Text;
 using Appointment_System_Server.Application.Service;
 using Appointment_System_Server.Domain.Entities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Appointment_System_Server.Infrastructure.Services;
 
-internal class JwtProvider : IJwtProvider
+internal class JwtProvider(IConfiguration configuration) : IJwtProvider
 {
     public string CreateToken(AppUser user)
     {
@@ -21,13 +22,14 @@ internal class JwtProvider : IJwtProvider
         };
 
         DateTime expires = DateTime.Now.AddDays(1);
-        string key = "MySuperSecretKey12345MySuperSecretKey12345MySuperSecretKey123333345"; // En az 64 bayt
-        SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(key));
+        
+        SymmetricSecurityKey securityKey = 
+            new(Encoding.UTF8.GetBytes(configuration.GetSection("Jwt:SecretKey").Value ?? ""));
         SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha512);
             
         JwtSecurityToken jwtSecurityToken = new(
-            issuer: "Teyfik Yilmaz",//kim uygulamanin sahibi
-            audience: "appointment.com",
+            issuer: configuration.GetSection("Jwt:Issuer").Value,//kim uygulamanin sahibi
+            audience: configuration.GetSection("Jwt:Audience").Value,
             claims: claims,
             notBefore: DateTime.Now,
             expires: expires,

@@ -1,7 +1,9 @@
 using Appointment_System_Server.Application.Features.Appointments.CreateAppointment;
+using Appointment_System_Server.Application.Features.Appointments.DeleteAppointmentById;
 using Appointment_System_Server.Application.Features.Appointments.GetAllAppointmentsByDoctorId;
 using Appointment_System_Server.Application.Features.Appointments.GetAllDoctorByDepartment;
 using Appointment_System_Server.Application.Features.Appointments.GetPatientByIdentityNumber;
+using Appointment_System_Server.Application.Features.Appointments.UpdateAppointment;
 using Appointment_System_Server.WebAPI.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +45,25 @@ public sealed class AppointmentsController : ApiController
     [HttpPost]
     public async Task<IActionResult> Create(
         CreateAppointmentCommand request,
+        CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(request, cancellationToken);
+        return StatusCode(response.StatusCode, response);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> DeleteById(
+        DeleteAppointmentByIdCommand request,
+        CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(request, cancellationToken);
+        return StatusCode(response.StatusCode, response);
+    }
+    
+    
+    [HttpPost]
+    public async Task<IActionResult> Update(
+        UpdateAppointmentCommand request,
         CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(request, cancellationToken);

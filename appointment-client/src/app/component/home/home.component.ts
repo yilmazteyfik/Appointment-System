@@ -55,6 +55,7 @@ export class HomeComponent {
       this.http.post<AppointmentsModel[]>("Appointments/GetAllByDoctorId",
         {doctorId: this.selectedDoctorId}, (res)=>{
           this.appointmentData = res.data;
+          console.log(this.appointmentData);
         });
     }
   }
@@ -102,6 +103,36 @@ export class HomeComponent {
         this.getAllAppointments();
       })
     }
+  }
+
+  onAppointmentDeleted(event: any){
+    event.cancel = true;
+
+  }
+  onAppointmentDeleting(event : any){
+    event.cancel = true;
+
+    this.swal.callSwall("Are you sure?", "You won't be able to revert this!", ()=>{
+      this.http.post("Appointments/DeleteById", {id: event.appointmentData.id}, (res)=>{
+        this.swal.callToast(res.data, "info");
+        this.getAllAppointments();
+      })
+    })
+  }
+  onAppointmentUpdating(event: any){
+    event.cancel = true;
+    const data = {
+      id: event.oldData.id,
+      startDate: this.date.transform(event.newData.startDate, "dd.MM.yyyy HH:mm"),
+      endDate: this.date.transform(event.newData.endDate, "dd.MM.yyyy HH:mm")
+    }
+    console.log(data);
+
+    this.http.post("Appointments/Update", data, (res)=>{
+      this.swal.callToast(res.data, "success");
+      
+    })
+    this.getAllAppointments();
   }
 
 

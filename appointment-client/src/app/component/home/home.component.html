@@ -39,6 +39,7 @@
     {
         <div class="mt4">
             <dx-scheduler [dataSource]="appointmentData"
+            [timeZone]="'Europe/Istanbul'"
             currentView="week"
             [startDayHour]="9"
             [endDayHour]="18"
@@ -47,6 +48,9 @@
             startDateExpr="startDate"
             endDateExpr="endDate"
             (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
+            (onAppointmentDeleted)="onAppointmentDeleted($event)"
+            (onAppointmentDeleting)="onAppointmentDeleting($event)"
+            (onAppointmentUpdating)="onAppointmentUpdating($event)"
             >               
             </dx-scheduler>
         </div>
@@ -68,8 +72,7 @@
                 <div class="form-group mt-4">
                     <label for="">Identity Number</label>
                     <input type="text" [(ngModel)]="createModel.identityNumber" name="IdentityNumber"
-                     class="form-control" required minlength="11" maxlength="11" (change)="getPatient()" 
-                     [disabled]="createModel.patientId !== null">
+                     class="form-control" required minlength="11" maxlength="11" (change)="getPatient()">
                 </div>
                 <div class="form-group mt-2">
                     <label for="">First Name</label>
