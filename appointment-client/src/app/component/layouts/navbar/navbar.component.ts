@@ -5,6 +5,7 @@ import { AuthService } from '../../../services/auth.service';
 @Component({
   selector: 'app-navbar',
   imports: [RouterLink],
+  standalone: true,
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
